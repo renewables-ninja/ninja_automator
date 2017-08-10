@@ -10,12 +10,10 @@ Currently there is an implementation in R, with a Python version under developme
 
 ### REQUIREMENTS & SETUP
 
-[R](https://www.r-project.org/) or [MRO](https://mran.revolutionanalytics.com/open/) version 3+
-
-Required libraries:
- * curl
+[R](https://www.r-project.org/) or [MRO](https://mran.revolutionanalytics.com/open/) version 3+, with the `curl` library.
 
 Download the files from the /R subfolder and you are ready to go.
+
 Inside `example.r` edit the path names and your API token.
 
 
@@ -25,17 +23,9 @@ Inside `example.r` edit the path names and your API token.
 
 `example.r` provides a set of five ready-made examples that walk you through running a single simulation, aggregating many simulations together, and reading inputs/output files to fully automate the ninja.
 
-These functions run a simulation for a single wind or solar farm by passing input parameters: 
-`data = ninja_get_wind(lat, lon, ...)`
-`data = ninja_get_solar(lat, lon, ...)`
+The functions `ninja_get_wind(lat, lon, ...)` and `ninja_get_solar(lat, lon, ...)` run a simulation for a single wind or solar farm by passing input parameters.  They will yield a 2-column dataframe containing timestamp and output.  You can expect each to take around 10 seconds to complete, due to the time needed to contact the server, the simulation to run, etc.
 
-They will yield a 2-column dataframe containing timestamp and output.  You can expect each to take around 10 seconds to complete, due to the time needed to contact the server, the simulation to run, etc.
-
-These functions run simulations for multiple wind or solar farms by passing vectors of input data:
-`data = ninja_aggregate_wind(lat, lon, ...)`
-`data = ninja_aggregate_solar(lat, lon, ...)`
-
-These will yield a multi-column dataframe containing timestamp and the output of each farm as a sepearate column.  You can expect the function to take around 10 seconds per farm being simulated.  
+These functions `ninja_aggregate_wind(lat, lon, ...)` and `ninja_aggregate_solar(lat, lon, ...)` run simulations for multiple wind or solar farms by passing vectors of input data.  These will yield a multi-column dataframe containing timestamp and the output of each farm as a sepearate column.  You can expect the function to take around 10 seconds per farm being simulated.  
 
 All the functions keep track of the number of simulations you have run, and will inject a wait to prevent you from exceeding the hourly API limits.  If you'd like it to be faster, send us some coins for a bigger and more powerful server :)
 
@@ -45,16 +35,18 @@ All the functions keep track of the number of simulations you have run, and will
 
 ## LICENSE
 BSD 3-Clause License
+
 Copyright (C) 2016-2017  Iain Staffell
+
 All rights reserved.
 
-See `LICENSE` for more detail
+See `LICENSE` for more detail.
 
 
 
 ## CREDITS & CONTACT
 
-The R automator is developed by Iain Staffell.  You can try emailing me at [i.staffell@imperial.ac.uk](mailto:i.staffell@imperial.ac.uk?subject=Renewables.ninja VWF code)
+The R automator is developed by Iain Staffell.  You can try emailing me at i.staffell@imperial.ac.uk
 
 This is part of the [Renewables.ninja](https://renewables.ninja) project, developed by Stefan Pfenninger and Iain Staffell.  Use the [contacts page](https://www.renewables.ninja/about) there.
 
