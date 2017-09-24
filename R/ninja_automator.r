@@ -48,7 +48,7 @@
 #       ninja_aggregate_urls = function(urls)
 #
 #    background functions that do other stuff
-#       flush_line(...)
+#       cat_flush(...)
 #       format_date(...)
 #
 #
@@ -172,11 +172,11 @@
 				if (elapsed > 3600) break
 
 				# approach iain with money to buy a bigger server if you want this rate increasing :)
-				clear_line('The ninja API is limited to', apilog$hourly_limit, 'requests per hour: waiting', 5 * ceiling((3600-elapsed)/5), 'seconds to proceed...')
+				cat_flush('The ninja API is limited to', apilog$hourly_limit, 'requests per hour: waiting', 5 * ceiling((3600-elapsed)/5), 'seconds to proceed...')
 				Sys.sleep(5)
 			}
 
-			clear_line()
+			cat_flush()
 
 		}
 
@@ -269,7 +269,7 @@
 		for (i in 1:n)
 		{
 			# i call this UX
-			flush_line("Downloading farm", i, "of", n)
+			cat_flush("Downloading farm", i, "of", n)
 
 			# grab the data for this farm
 			this_farm = ninja_get_url(urls[i])
@@ -296,7 +296,7 @@
 		}
 
 		# more UX!
-		flush_line("Downloaded", n, "farms...\n")
+		cat_flush("Downloaded", n, "farms...\n")
 
 		# return
 		all_farms
@@ -313,7 +313,7 @@
 #####
 
 	# console - clear line and flush line
-	flush_line = function(...)
+	cat_flush = function(...)
 	{
 		cat("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
 		cat("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
