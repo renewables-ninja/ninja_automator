@@ -7,7 +7,7 @@ Currently there are implementations in Excel and R, with a Python version under 
 
 ## Ninja Automator Excel VBA
 
-This provides a VBA routine to run simulations via the Renewables.ninja API and deliver results into a spreadsheet.  Usage should be self explanatory, read the ~INFO~ worksheet to begin.
+This provides a VBA routine to run simulations via the Renewables.ninja API and deliver results into a spreadsheet.  Usage should be self explanatory, read the INFO worksheet to begin.
 
 The Excel worksheet provides an example implementation, which allows the user to choose model parameters, and download data as either hourly values, daily averages or monthly averages.
 
