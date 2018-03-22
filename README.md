@@ -20,7 +20,7 @@ Requires VBA Macros to be enabled.
 
 ## Ninja Automator R
 
-This provides a set of functions and worked examples that contact the renewables.ninja API, perform your simulation and return the results as a dataframe.  Multiple simulations can be performed, by either supplying vectors of input paramets (e.g. multiple latitutde and longitude coordinates), or by reading in a CSV file of input parameters.
+This provides a set of worked examples that contact the renewables.ninja API, perform your simulation and return the results as a data.frame.  Multiple simulations can be performed by either supplying vectors of input parameters or by reading them in from a CSV file.
 
 
 ### REQUIREMENTS & SETUP
