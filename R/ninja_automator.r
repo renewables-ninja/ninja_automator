@@ -1,7 +1,7 @@
 ##################################################################
 #                                                                #
 #  BSD 3-Clause License                                          #
-#  Copyright (C) 2012-2017  Iain Staffell  <staffell@gmail.com>  #
+#  Copyright (C) 2012-2018  Iain Staffell  <staffell@gmail.com>  #
 #  All rights reserved.                                          #
 #                                                                #
 ##################################################################
@@ -74,7 +74,7 @@
 	{
 		from = format_date(from)
 		to = format_date(to)
-		paste0('https://www.renewables.ninja/api/v1/data/wind?&lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&height=', height, '&turbine=', turbine, '&format=', format)
+		paste0('https://www.renewables.ninja/api/data/wind?&lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&height=', height, '&turbine=', turbine, '&raw=false&format=', format)
 	}
 
 
@@ -83,7 +83,7 @@
 	{
 		from = format_date(from)
 		to = format_date(to)
-		paste0('https://www.renewables.ninja/api/v1/data/pv?lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&system_loss=', system_loss, '&tracking=', tracking, '&tilt=', tilt, '&azim=', azim, '&format=', format)
+		paste0('https://www.renewables.ninja/api/data/pv?lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&system_loss=', system_loss, '&tracking=', tracking, '&tilt=', tilt, '&azim=', azim, '&raw=false&format=', format)
 	}
 
 
