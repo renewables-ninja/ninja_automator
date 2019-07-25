@@ -7,7 +7,7 @@ Currently there are implementations in Excel and R, with a Python version under 
 
 ## Ninja Automator Excel VBA
 
-[Download the Ninja Excel interface](https://github.com/renewables-ninja/ninja_automator/raw/master/Excel/Ninja%20Automator.xlsm)
+You can download the [Ninja Excel Interface here](https://github.com/renewables-ninja/ninja_automator/raw/master/Excel/Ninja%20Automator.xlsm).
 
 This provides a VBA routine to run simulations via the Renewables.ninja API and deliver results into a spreadsheet.  Usage should be self explanatory, read the INFO worksheet to begin.
 
