@@ -1,7 +1,7 @@
 ##################################################################
 #                                                                #
 #  BSD 3-Clause License                                          #
-#  Copyright (C) 2012-2018  Iain Staffell  <staffell@gmail.com>  #
+#  Copyright (C) 2012-2019  Iain Staffell  <staffell@gmail.com>  #
 #  All rights reserved.                                          #
 #                                                                #
 ##################################################################
@@ -69,21 +69,21 @@
 ## ##  FUNCTIONS TO BUILD THE URL FOR API REQUESTS 
 #####
 	
-	# example wind url: https://www.renewables.ninja/api/v1/data/wind?&lat=-37.23&lon=143.05&date_from=2014-01-01&date_to=2014-02-28&capacity=240&dataset=merra2&height=83&turbine=Vestas+V80+2000&format=csv
-	ninja_build_wind_url = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, height=60, turbine='Vestas+V80+2000', format='csv')
+	# example wind url: https://www.renewables.ninja/api/data/wind?&lat=-37.23&lon=143.05&date_from=2014-01-01&date_to=2014-02-28&capacity=240&dataset=merra2&height=83&turbine=Vestas+V80+2000&format=csv
+	ninja_build_wind_url = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, height=60, turbine='Vestas+V80+2000', raw='false', format='csv')
 	{
 		from = format_date(from)
 		to = format_date(to)
-		paste0('https://www.renewables.ninja/api/data/wind?&lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&height=', height, '&turbine=', turbine, '&raw=false&format=', format)
+		paste0('https://www.renewables.ninja/api/data/wind?&lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&height=', height, '&turbine=', turbine, '&raw=', raw, '&format=', format)
 	}
 
 
-	# example solar url: https://www.renewables.ninja/api/v1/data/pv?lat=45&lon=22&date_from=2014-01-01&date_to=2014-01-31&dataset=merra2&capacity=1&system_loss=10&tracking=0&tilt=35&azim=180&format=csv
-	ninja_build_solar_url = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=10, tracking=0, tilt=35, azim=180, format='csv')
+	# example solar url: https://www.renewables.ninja/api/data/pv?lat=45&lon=22&date_from=2014-01-01&date_to=2014-01-31&dataset=merra2&capacity=1&system_loss=0.1&tracking=0&tilt=35&azim=180&raw=false&format=csv
+	ninja_build_solar_url = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=0.1, tracking=0, tilt=35, azim=180, raw='false', format='csv')
 	{
 		from = format_date(from)
 		to = format_date(to)
-		paste0('https://www.renewables.ninja/api/data/pv?lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&system_loss=', system_loss, '&tracking=', tracking, '&tilt=', tilt, '&azim=', azim, '&raw=false&format=', format)
+		paste0('https://www.renewables.ninja/api/data/pv?lat=', lat, '&lon=', lon, '&date_from=', from, '&date_to=', to, '&capacity=', capacity, '&dataset=', dataset, '&system_loss=', system_loss, '&tracking=', tracking, '&tilt=', tilt, '&azim=', azim, '&raw=', raw, '&format=', format)
 	}
 
 
@@ -101,25 +101,25 @@
 	# returns a data frame with timestamp and power output
 	# zero error checking :(
 	#
-	ninja_get_wind = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, height=60, turbine='Vestas+V80+2000')
+	ninja_get_wind = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, height=60, turbine='Vestas+V80+2000', raw='false')
 	{
-		url = ninja_build_wind_url(lat, lon, from, to, dataset, capacity, height, turbine, 'csv')
+		url = ninja_build_wind_url(lat, lon, from, to, dataset, capacity, height, turbine, raw, 'csv')
 		ninja_get_url(url)
 	}
 
 
-	ninja_get_solar = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=10, tracking=0, tilt=35, azim=180)
+	ninja_get_solar = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=0.1, tracking=0, tilt=35, azim=180, raw='false')
 	{
-		url = ninja_build_solar_url(lat, lon, from, to, dataset, capacity, system_loss, tracking, tilt, azim, 'csv')
+		url = ninja_build_solar_url(lat, lon, from, to, dataset, capacity, system_loss, tracking, tilt, azim, raw, 'csv')
 		ninja_get_url(url)
 	}
 
 
 
 	# behind the scenes - this function contacts the ninja API
-	# converts the CSV download into a data.frame, and handles the silly two-header lines
+	# converts the CSV returned by the ninja into a data.frame
 	#
-	# it also keeps track of when you made previous server requests
+	# it also trackes when you made previous server requests
 	# to ensure you don't exceed your API rate limits
 	#
 	ninja_get_url = function(url)
@@ -132,13 +132,7 @@
 
 		# grab the data as csv
 		req = curl(url, handle=h)
-		csv = read.csv(req, stringsAsFactors=FALSE)
-
-		# sort out the horrors of having two column headers
-		colnames(csv) = paste0(colnames(csv), csv[1, ])
-		csv = csv[-1, ]
-		for (c in 2:ncol(csv))
-			csv[ , c] = as.numeric(csv[ , c])
+		csv = read.csv(req, skip=3, stringsAsFactors=FALSE)
 
 		# convert the time column to POSIX
 		csv[ , 1] = as.POSIXct(csv[ , 1], format="%Y-%m-%d %H:%M")

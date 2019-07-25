@@ -72,7 +72,7 @@
 
 	# how do they correlate?
 	dev.new()
-	plot(yd[ , -1], pch='.')
+	plot(y[ , -1], pch='.')
 
 	# what about the daily averages?
 	yd = aggregate(y, by=list(as.Date(y$time)), mean)
