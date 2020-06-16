@@ -1,7 +1,7 @@
 ##################################################################
 #                                                                #
 #  BSD 3-Clause License                                          #
-#  Copyright (C) 2012-2019  Iain Staffell  <staffell@gmail.com>  #
+#  Copyright (C) 2012-2020  Iain Staffell  <staffell@gmail.com>  #
 #  All rights reserved.                                          #
 #                                                                #
 ##################################################################
@@ -142,6 +142,7 @@
 	}
 
 
+
 	# here's the global object we use to track api requests
 	apilog = list()
 
@@ -226,7 +227,7 @@
 	}
 
 
-	ninja_aggregate_solar = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=10, tracking=0, tilt=35, azim=180, name=NULL)
+	ninja_aggregate_solar = function(lat, lon, from='2014-01-01', to='2014-12-31', dataset='merra2', capacity=1, system_loss=0.1, tracking=0, tilt=35, azim=180, name=NULL)
 	{
 		# check our coordinates are of the same length
 		if (length(lat) != length(lon))
